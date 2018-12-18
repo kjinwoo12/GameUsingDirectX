@@ -19,11 +19,12 @@ public:
 	void KeyDown(unsigned int);
 	void KeyUp(unsigned int);
 
+	bool UpdateKeyState();
 	bool IsKeyDown(unsigned int);
 	KEY_STATE GetKeyState(unsigned int);
 
 private:
 	bool mCurrentKey[256];
-	bool mLaskKey[256];
+	bool mLastKey[256];
 };
 

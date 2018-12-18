@@ -20,7 +20,7 @@ void InputClass::Initialize() {
 	for (i = 0; i < 256; i++)
 	{
 		mCurrentKey[i] = false;
-		mLaskKey[i] = false;
+		mLastKey[i] = false;
 	}
 
 	return;
@@ -41,19 +41,31 @@ void InputClass::KeyUp(unsigned int input) {
 }
 
 
+bool InputClass::UpdateKeyState() {
+	try {
+		for (int i = 0; i < 256; i++) {
+			mLastKey[i] = mCurrentKey[i];
+			mCurrentKey[i] = false;
+		}
+	} catch(...) {
+		return false;
+	}
+}
+
+
 bool InputClass::IsKeyDown(unsigned int key) {
 	// Return what state the key is in (pressed/not pressed).
 	return mCurrentKey[key];
 }
 
 KEY_STATE InputClass::GetKeyState(unsigned int key) {
-	if (!mCurrentKey[key] && !mLaskKey[key]) {
+	if (!mCurrentKey[key] && !mLastKey[key]) {
 		return KEY_STATE::NORMAL;
-	} else if (mCurrentKey[key] && !mLaskKey[key]) {
+	} else if (mCurrentKey[key] && !mLastKey[key]) {
 		return KEY_STATE::DOWN;
-	} else if (mCurrentKey[key] && mLaskKey[key]) {
+	} else if (mCurrentKey[key] && mLastKey[key]) {
 		return KEY_STATE::PRESS;
-	} else if (!mCurrentKey[key] && mLaskKey[key]) {
+	} else if (!mCurrentKey[key] && mLastKey[key]) {
 		return KEY_STATE::UP;
 	} else {
 		return KEY_STATE::NORMAL;

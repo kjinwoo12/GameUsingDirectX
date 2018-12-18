@@ -1,6 +1,4 @@
 #include "SystemClass.h"
-#define WIDTH 1920
-#define HEIGHT 1080
 
 
 int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow) {
@@ -15,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, PSTR pScmdline,
 	}
 
 	// Initialize and run the system object.
-	result = System->Initialize(WIDTH, HEIGHT);
+	result = System->Initialize();
 	if(result) {
 		System->Run();
 	}
