@@ -13,16 +13,16 @@ public:
 	SystemClass(const SystemClass&);
 	~SystemClass();
 
-	bool Initialize();
-	void Shutdown();
-	void Run();
+	bool initialize();
+	void shutdown();
+	void run();
 
-	LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
+	LRESULT CALLBACK messageHandler(HWND, UINT, WPARAM, LPARAM);
 
 private:
-	bool Frame();
-	void InitializeWindows(int, int);
-	void ShutdownWindows();
+	bool frame();
+	void initializeWindows(int, int);
+	void shutdownWindows();
 
 private:
 	LPCWSTR m_applicationName;

@@ -14,7 +14,7 @@ SystemClass::~SystemClass() {
 }
 
 
-bool SystemClass::Initialize() {
+bool SystemClass::initialize() {
 	int screenWidth, screenHeight;
 	bool result;
 
@@ -30,7 +30,7 @@ bool SystemClass::Initialize() {
 	}
 
 	// Initialize the windows api.
-	InitializeWindows(screenWidth, screenHeight);
+	initializeWindows(screenWidth, screenHeight);
 
 	// Create the input object.  This object will be used to handle reading the keyboard input from the user.
 	m_Input = new InputClass;
@@ -40,7 +40,7 @@ bool SystemClass::Initialize() {
 	}
 
 	// Initialize the input object.
-	m_Input->Initialize();
+	m_Input->initialize();
 
 	// Create the graphics object.  This object will handle rendering all the graphics for this application.
 	m_Graphics = new GraphicsClass;
@@ -50,7 +50,7 @@ bool SystemClass::Initialize() {
 	}
 
 	// Initialize the graphics object.
-	result = m_Graphics->Initialize(screenWidth, screenHeight, m_hwnd);
+	result = m_Graphics->initialize(screenWidth, screenHeight, m_hwnd);
 	if(!result)
 	{
 		return false;
@@ -60,11 +60,11 @@ bool SystemClass::Initialize() {
 }
 
 
-void SystemClass::Shutdown() {
+void SystemClass::shutdown() {
 	// Release the graphics object.
 	if(m_Graphics)
 	{
-		m_Graphics->Shutdown();
+		m_Graphics->shutdown();
 		delete m_Graphics;
 		m_Graphics = 0;
 	}
@@ -77,13 +77,13 @@ void SystemClass::Shutdown() {
 	}
 
 	// Shutdown the window.
-	ShutdownWindows();
+	shutdownWindows();
 	
 	return;
 }
 
 
-void SystemClass::Run()
+void SystemClass::run()
 {
 	MSG msg;
 	bool done, result;
@@ -108,7 +108,7 @@ void SystemClass::Run()
 		}
 		else {
 			// Otherwise do the frame processing.
-			result = Frame();
+			result = frame();
 			if(!result) {
 				done = true;
 			}
@@ -120,25 +120,27 @@ void SystemClass::Run()
 }
 
 
-bool SystemClass::Frame() {
+bool SystemClass::frame() {
 	bool result;
 
-	// Check if the user pressed escape and wants to exit the application.
-	//if(m_Input->IsKeyDown(VK_ESCAPE)) {
-	//	return false;
-	//}
+	//Check if the user pressed escape and wants to exit the application.
+	if(m_Input->isKeyDown(VK_ESCAPE)) {
+		return false;
+	}
 
 	// Do the frame processing for the graphics object.
-	result = m_Graphics->Frame();
+	result = m_Graphics->frame();
 	if(!result) {
 		return false;
 	}
+
+	m_Input->updateKeyState();
 
 	return true;
 }
 
 
-LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd,
+LRESULT CALLBACK SystemClass::messageHandler(HWND hwnd,
 											 UINT umsg,
 											 WPARAM wparam,
 											 LPARAM lparam) {
@@ -147,13 +149,13 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd,
 		// Check if a key has been pressed on the keyboard.
 		case WM_KEYDOWN:
 			// If a key is pressed send it to the input object so it can record that state.
-			m_Input->KeyDown((unsigned int)wparam);
+			m_Input->keyDown((unsigned int)wparam);
 			return 0;
 
 		// Check if a key has been released on the keyboard.
 		case WM_KEYUP:
 			// If a key is released then send it to the input object so it can unset the state for that key.
-			m_Input->KeyUp((unsigned int)wparam);
+			m_Input->keyUp((unsigned int)wparam);
 			return 0;
 
 		// Any other messages send to the default message handler as our application won't make use of them.
@@ -163,7 +165,7 @@ LRESULT CALLBACK SystemClass::MessageHandler(HWND hwnd,
 }
 
 
-void SystemClass::InitializeWindows(int screenWidth, int screenHeight) {
+void SystemClass::initializeWindows(int screenWidth, int screenHeight) {
 	WNDCLASSEX wc;
 	DEVMODE dmScreenSettings;
 	int posX, posY;
@@ -234,7 +236,7 @@ void SystemClass::InitializeWindows(int screenWidth, int screenHeight) {
 }
 
 
-void SystemClass::ShutdownWindows() {
+void SystemClass::shutdownWindows() {
 	// Show the mouse cursor.
 	ShowCursor(true);
 
@@ -272,6 +274,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 
 		// All other messages pass to the message handler in the system class.
 		default:
-			return ApplicationHandle->MessageHandler(hwnd, umessage, wparam, lparam);
+			return ApplicationHandle->messageHandler(hwnd, umessage, wparam, lparam);
 	}
 }

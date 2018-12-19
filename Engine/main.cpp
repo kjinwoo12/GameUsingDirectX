@@ -1,3 +1,8 @@
+//show console for debugging
+#ifdef _DEBUG
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+
 #include "SystemClass.h"
 
 
@@ -13,13 +18,13 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, PSTR pScmdline,
 	}
 
 	// Initialize and run the system object.
-	result = System->Initialize();
+	result = System->initialize();
 	if(result) {
-		System->Run();
+		System->run();
 	}
 
 	// Shutdown and release the system object.
-	System->Shutdown();
+	System->shutdown();
 	delete System;
 	System = 0;
 

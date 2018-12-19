@@ -1,10 +1,10 @@
 #pragma once
 
 enum class KEY_STATE {
-	DOWN=1,
-	PRESS,
-	UP,
-	NORMAL,	
+	DOWN=-2,
+	PRESS=-1,
+	NORMAL=0,
+	UP=1,
 };
 
 class InputClass
@@ -14,17 +14,17 @@ public:
 	InputClass(const InputClass&);
 	~InputClass();
 
-	void Initialize();
+	void initialize();
 
-	void KeyDown(unsigned int);
-	void KeyUp(unsigned int);
+	void keyDown(unsigned int);
+	void keyUp(unsigned int);
 
-	bool UpdateKeyState();
-	bool IsKeyDown(unsigned int);
-	KEY_STATE GetKeyState(unsigned int);
+	bool updateKeyState();
+	bool isKeyDown(unsigned int);
+	KEY_STATE getKeyState(unsigned int);
 
 private:
-	bool mCurrentKey[256];
-	bool mLastKey[256];
+	bool m_currentKey[256];
+	bool m_lastKey[256];
 };
 

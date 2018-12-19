@@ -1,4 +1,5 @@
 #include "D3DClass.h"
+#include<stdio.h>
 
 
 D3DClass::D3DClass()
@@ -24,7 +25,7 @@ D3DClass::~D3DClass()
 }
 
 
-bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, 
+bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hwnd, bool fullscreen, 
 						  float screenDepth, float screenNear)
 {
 	HRESULT result;
@@ -117,6 +118,9 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// Convert the name of the video card to a character array and store it.
 	error = wcstombs_s(&stringLength, m_videoCardDescription, 128, adapterDesc.Description, 128);
+	printf("The name of VideoCard : %s\n", m_videoCardDescription);
+	printf("memory-size of VideoCard : %dmb\n", m_videoCardMemory);
+
 	if(error != 0)
 	{
 		return false;
@@ -338,7 +342,7 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 }
 
 
-void D3DClass::Shutdown()
+void D3DClass::shutdown()
 {
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
 	if(m_swapChain)
@@ -398,7 +402,7 @@ void D3DClass::Shutdown()
 }
 
 
-void D3DClass::BeginScene(float red, float green, float blue, float alpha)
+void D3DClass::begineScene(float red, float green, float blue, float alpha)
 {
 	float color[4];
 
@@ -419,7 +423,7 @@ void D3DClass::BeginScene(float red, float green, float blue, float alpha)
 }
 
 
-void D3DClass::EndScene()
+void D3DClass::endScene()
 {
 	// Present the back buffer to the screen since rendering is complete.
 	if(m_vsync_enabled)
@@ -437,40 +441,40 @@ void D3DClass::EndScene()
 }
 
 
-ID3D11Device* D3DClass::GetDevice()
+ID3D11Device* D3DClass::getDevice()
 {
 	return m_device;
 }
 
 
-ID3D11DeviceContext* D3DClass::GetDeviceContext()
+ID3D11DeviceContext* D3DClass::getDeviceContext()
 {
 	return m_deviceContext;
 }
 
 
-void D3DClass::GetProjectionMatrix(D3DXMATRIX& projectionMatrix)
+void D3DClass::getProjectionMatrix(D3DXMATRIX& projectionMatrix)
 {
 	projectionMatrix = m_projectionMatrix;
 	return;
 }
 
 
-void D3DClass::GetWorldMatrix(D3DXMATRIX& worldMatrix)
+void D3DClass::getWorldMatrix(D3DXMATRIX& worldMatrix)
 {
 	worldMatrix = m_worldMatrix;
 	return;
 }
 
 
-void D3DClass::GetOrthoMatrix(D3DXMATRIX& orthoMatrix)
+void D3DClass::getOrthoMatrix(D3DXMATRIX& orthoMatrix)
 {
 	orthoMatrix = m_orthoMatrix;
 	return;
 }
 
 
-void D3DClass::GetVideoCardInfo(char* cardName, int& memory)
+void D3DClass::getVideoCardInfo(char* cardName, int& memory)
 {
 	strcpy_s(cardName, 128, m_videoCardDescription);
 	memory = m_videoCardMemory;

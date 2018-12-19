@@ -18,20 +18,20 @@ public:
 	D3DClass(const D3DClass&);
 	~D3DClass();
 
-	bool Initialize(int, int, bool, HWND, bool, float, float);
-	void Shutdown();
+	bool initialize(int, int, bool, HWND, bool, float, float);
+	void shutdown();
 	
-	void BeginScene(float, float, float, float);
-	void EndScene();
+	void begineScene(float, float, float, float);
+	void endScene();
 
-	ID3D11Device* GetDevice();
-	ID3D11DeviceContext* GetDeviceContext();
+	ID3D11Device* getDevice();
+	ID3D11DeviceContext* getDeviceContext();
 
-	void GetProjectionMatrix(D3DXMATRIX&);
-	void GetWorldMatrix(D3DXMATRIX&);
-	void GetOrthoMatrix(D3DXMATRIX&);
+	void getProjectionMatrix(D3DXMATRIX&);
+	void getWorldMatrix(D3DXMATRIX&);
+	void getOrthoMatrix(D3DXMATRIX&);
 
-	void GetVideoCardInfo(char*, int&);
+	void getVideoCardInfo(char*, int&);
 
 private:
 	bool m_vsync_enabled;

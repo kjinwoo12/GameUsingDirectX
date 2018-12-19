@@ -6,11 +6,31 @@
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="GraphicsClass.cpp" />
     <ClCompile Include="D3DClass.cpp" />
+    <ClCompile Include="ModelClass.cpp" />
+    <ClCompile Include="ColorShaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="GraphicsClass.h" />
     <ClInclude Include="D3DClass.h" />
+    <ClInclude Include="ModelClass.h" />
+    <ClInclude Include="ColorShaderClass.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="resources">
+      <UniqueIdentifier>{55c65c29-38cb-40bd-9991-98809127b4c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{4824b070-5dab-42fd-9798-9c25dff9281f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="color.ps">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="color.vs">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

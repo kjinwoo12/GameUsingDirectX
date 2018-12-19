@@ -3,8 +3,8 @@
 
 #include "D3DClass.h"
 
-const int DEFAULT_WIDTH = 1920;
-const int DEFAULT_HEIGHT = 1080;
+const int DEFAULT_WIDTH = 1600;
+const int DEFAULT_HEIGHT = 900;
 const bool FULL_SCREEN = false;
 const bool VSYNC_ENABLED = true;
 const float SCREEN_DEPTH = 1000.0f;
@@ -18,12 +18,12 @@ public:
 	GraphicsClass(const GraphicsClass&);
 	~GraphicsClass();
 
-	bool Initialize(int, int, HWND);
-	void Shutdown();
-	bool Frame();
+	bool initialize(int, int, HWND);
+	void shutdown();
+	bool frame();
 
 private:
-	bool Render();
+	bool render();
 
 private:
 	D3DClass* m_D3D;

@@ -13,39 +13,39 @@ InputClass::~InputClass() {
 }
 
 
-void InputClass::Initialize() {
+void InputClass::initialize() {
 	int i;
 
 	// Initialize all the keys to being released and not pressed.
 	for (i = 0; i < 256; i++)
 	{
-		mCurrentKey[i] = false;
-		mLastKey[i] = false;
+		m_currentKey[i] = false;
+		m_lastKey[i] = false;
 	}
 
 	return;
 }
 
 
-void InputClass::KeyDown(unsigned int input) {
+void InputClass::keyDown(unsigned int input) {
 	// If a key is pressed then save that state in the key array.
-	mCurrentKey[input] = true;
+	m_currentKey[input] = true;
 	return;
 }
 
 
-void InputClass::KeyUp(unsigned int input) {
+void InputClass::keyUp(unsigned int input) {
 	// If a key is released then clear that state in the key array.
-	mCurrentKey[input] = false;
+	m_currentKey[input] = false;
 	return;
 }
 
 
-bool InputClass::UpdateKeyState() {
+bool InputClass::updateKeyState() {
 	try {
 		for (int i = 0; i < 256; i++) {
-			mLastKey[i] = mCurrentKey[i];
-			mCurrentKey[i] = false;
+			m_lastKey[i] = m_currentKey[i];
+			m_currentKey[i] = false;
 		}
 	} catch(...) {
 		return false;
@@ -53,19 +53,19 @@ bool InputClass::UpdateKeyState() {
 }
 
 
-bool InputClass::IsKeyDown(unsigned int key) {
+bool InputClass::isKeyDown(unsigned int key) {
 	// Return what state the key is in (pressed/not pressed).
-	return mCurrentKey[key];
+	return m_currentKey[key];
 }
 
-KEY_STATE InputClass::GetKeyState(unsigned int key) {
-	if (!mCurrentKey[key] && !mLastKey[key]) {
+KEY_STATE InputClass::getKeyState(unsigned int key) {
+	if (!m_currentKey[key] && !m_lastKey[key]) {
 		return KEY_STATE::NORMAL;
-	} else if (mCurrentKey[key] && !mLastKey[key]) {
+	} else if (m_currentKey[key] && !m_lastKey[key]) {
 		return KEY_STATE::DOWN;
-	} else if (mCurrentKey[key] && mLastKey[key]) {
+	} else if (m_currentKey[key] && m_lastKey[key]) {
 		return KEY_STATE::PRESS;
-	} else if (!mCurrentKey[key] && mLastKey[key]) {
+	} else if (!m_currentKey[key] && m_lastKey[key]) {
 		return KEY_STATE::UP;
 	} else {
 		return KEY_STATE::NORMAL;
