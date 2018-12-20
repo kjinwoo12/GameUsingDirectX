@@ -7,7 +7,7 @@ using namespace std;
 
 class ColorShaderClass {
 private:
-	struct matrixBufferType {
+	struct MatrixBufferType {
 		D3DXMATRIX world;
 		D3DXMATRIX view;
 		D3DXMATRIX projection;
@@ -27,7 +27,7 @@ private:
 	void outputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
 
 	bool setShaderParameters(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX);
-	void renderShader();
+	void renderShader(ID3D11DeviceContext*, int);
 
 private:
 	ID3D11VertexShader* m_vertexShader;
