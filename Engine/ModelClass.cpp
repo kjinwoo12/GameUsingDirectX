@@ -64,7 +64,7 @@ bool ModelClass::initializeBuffers(ID3D11Device* device) {
 	vertices[0].position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
 	vertices[0].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
 
-	vertices[1].position = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+	vertices[1].position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	vertices[1].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
 
 	vertices[2].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
@@ -131,14 +131,10 @@ void ModelClass::shutdownBuffers() 	{
 }
 
 void ModelClass::renderBuffers(ID3D11DeviceContext* deviceContext) {
-	unsigned int stride;
-	unsigned int offset;
+	unsigned int stride = sizeof(VertexType);
+	unsigned int offset = 0;
 
-	//정점 버퍼의 단위와 오프셋
-	stride = sizeof(VertexType);
-	offset = 0;
-
-	//input assembler에 정점 버펖를 활성화하여 그려질 수 있게 합니다.
+	//input assembler에 정점 버퍼를 활성화하여 그려질 수 있게 합니다.
 	deviceContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
 
 	//input assembler에 인덱스 버퍼를 활성화하여 그려질 수 있게 합니다.

@@ -8,6 +8,7 @@
     <ClCompile Include="D3DClass.cpp" />
     <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="ColorShaderClass.cpp" />
+    <ClCompile Include="CameraClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h" />
@@ -16,6 +17,7 @@
     <ClInclude Include="D3DClass.h" />
     <ClInclude Include="ModelClass.h" />
     <ClInclude Include="ColorShaderClass.h" />
+    <ClInclude Include="CameraClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="resources">

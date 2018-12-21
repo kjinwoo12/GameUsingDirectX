@@ -29,6 +29,22 @@ void ColorShaderClass::shutdown() {
 	return;
 }
 
+bool ColorShaderClass::render(ID3D11DeviceContext* deviceContext, int indexCount, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,
+															D3DXMATRIX projectionMatrix) {
+	bool result;
+
+	//렌더링에 사용할 셰이더의 인자를 입력합니다.
+	result = setShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix);
+	if (!result) {
+		return false;
+	}
+
+	//셰이더를 이용하여 준비된 버퍼를 그립니다.
+	renderShader(deviceContext, indexCount);
+
+	return true;
+}
+
 bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFileName, WCHAR* psFileName) {
 	HRESULT result;
 	ID3D10Blob* errorMessage = 0;
@@ -97,6 +113,7 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 																		 vertexShaderBuffer->GetBufferSize(), &m_layout);
 
 	if (FAILED(result)) {
+		cout << "정점 입력 레이아웃 생성 실패";
 		return false;
 	}
 
@@ -112,12 +129,13 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
 	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.BindFlags = D3D11_CPU_ACCESS_WRITE;
+	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
 	result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
 	if (FAILED(result)) {
+		cout << "상수 버퍼 생성 실패";
 		return false;
 	}
 
