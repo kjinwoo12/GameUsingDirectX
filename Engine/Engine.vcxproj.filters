@@ -26,13 +26,22 @@
     <Filter Include="shader">
       <UniqueIdentifier>{4824b070-5dab-42fd-9798-9c25dff9281f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shader\color">
+      <UniqueIdentifier>{ea0f88cb-a041-4fef-a8af-1d6ebf60faa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader\texture">
+      <UniqueIdentifier>{d215c114-f097-4e6c-8cb0-f5cf27cea3e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="color.ps">
-      <Filter>shader</Filter>
+      <Filter>shader\color</Filter>
     </None>
     <None Include="color.vs">
-      <Filter>shader</Filter>
+      <Filter>shader\color</Filter>
+    </None>
+    <None Include="texture.vs">
+      <Filter>shader\texture</Filter>
     </None>
   </ItemGroup>
 </Project>
