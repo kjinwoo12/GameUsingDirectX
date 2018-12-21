@@ -191,6 +191,7 @@ void ColorShaderClass::outputShaderErrorMessage(ID3D10Blob* errorMessage, HWND h
 	MessageBox(hwnd, L"Error compiling shader. Check shader-error.txt for message", shaderFileName, MB_OK);
 }
 
+
 bool ColorShaderClass::setShaderParameters(ID3D11DeviceContext* deviceContext,
 																					 D3DXMATRIX worldMatrix,
 																					 D3DXMATRIX viewMatrix,
@@ -200,6 +201,7 @@ bool ColorShaderClass::setShaderParameters(ID3D11DeviceContext* deviceContext,
 	MatrixBufferType* dataPtr;
 	unsigned int bufferNumber;
 
+	// 전치행렬로 변환
 	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
 	D3DXMatrixTranspose(&viewMatrix, &viewMatrix);
 	D3DXMatrixTranspose(&projectionMatrix, &projectionMatrix);

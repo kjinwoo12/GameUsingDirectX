@@ -48,8 +48,8 @@ bool ModelClass::initializeBuffers(ID3D11Device* device) {
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	HRESULT result;
 
-	m_vertexCount = 3;
-	m_indexCount = 3;
+	m_vertexCount = 4;
+	m_indexCount = 6;
 
 	vertices = new VertexType[m_vertexCount];
 	if (!vertices) {
@@ -64,15 +64,22 @@ bool ModelClass::initializeBuffers(ID3D11Device* device) {
 	vertices[0].position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
 	vertices[0].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
 
-	vertices[1].position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	vertices[1].position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
 	vertices[1].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
 
-	vertices[2].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+	vertices[2].position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
 	vertices[2].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+
+	vertices[3].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+	vertices[3].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
+
+	indices[3] = 0;
+	indices[4] = 2;
+	indices[5] = 3;
 
 	
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
