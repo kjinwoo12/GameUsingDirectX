@@ -45,7 +45,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!m_camera) {
 		return false;
 	}
-	m_camera->setPosition(0.0f, 0.0f, -10.0f);
+	m_camera->setPosition(0.0f, 0.0f, -100.0f);
 
 	m_model = new ModelClass;
 	if (!m_model) {

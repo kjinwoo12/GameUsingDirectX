@@ -56,8 +56,10 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	D3D11_BUFFER_DESC matrixBufferDesc;
 
 	//Á¤Á¡ ¼ÎÀÌ´õ ÄÄÆÄÀÏ
-	result = D3DX11CompileFromFile(vsFileName, NULL, NULL, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
-																 &vertexShaderBuffer, &errorMessage, NULL);
+	result = D3DX11CompileFromFile(vsFileName, NULL, NULL, "ColorVertexShader", 
+																 "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 
+																 0, NULL, &vertexShaderBuffer, &errorMessage,
+																 NULL);
 	if (FAILED(result)) {
 		if (errorMessage) {
 			outputShaderErrorMessage(errorMessage, hwnd, vsFileName);
@@ -67,8 +69,9 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	}
 
 	//ÇÈ¼¿ ¼ÎÀÌ´õ ÄÄÆÄÀÏ
-	result = D3DX11CompileFromFile(psFileName, NULL, NULL, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
-																 &pixelShaderBuffer, &errorMessage, NULL);
+	result = D3DX11CompileFromFile(psFileName, NULL, NULL, "ColorPixelShader",
+																 "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+																 NULL, &pixelShaderBuffer, &errorMessage, NULL);
 	if (FAILED(result)) {
 		if (errorMessage) {
 			outputShaderErrorMessage(errorMessage, hwnd, psFileName);
@@ -78,12 +81,16 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 		return false;
 	}
 	
-	result = device->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &m_vertexShader);
+	result = device->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(),
+																			vertexShaderBuffer->GetBufferSize(),
+																			NULL, &m_vertexShader);
 	if (FAILED(result)) {
 		return false;
 	}
 
-	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &m_pixelShader);
+	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(),
+																		 pixelShaderBuffer->GetBufferSize(),
+																		 NULL, &m_pixelShader);
 	if (FAILED(result)) {
 		return false;
 	}
