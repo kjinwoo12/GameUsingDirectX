@@ -116,8 +116,10 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
 	//정점 입력 레이아웃 생성
-	result = device->CreateInputLayout(polygonLayout, numElements, vertexShaderBuffer->GetBufferPointer(),
-																		 vertexShaderBuffer->GetBufferSize(), &m_layout);
+	result = device->CreateInputLayout(polygonLayout, numElements, 
+																		 vertexShaderBuffer->GetBufferPointer(),
+																		 vertexShaderBuffer->GetBufferSize(),
+																		 &m_layout);
 
 	if (FAILED(result)) {
 		cout << "정점 입력 레이아웃 생성 실패";
