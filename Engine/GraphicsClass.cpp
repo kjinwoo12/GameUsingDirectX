@@ -75,7 +75,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	result = m_textureShader->initialize(m_d3d->getDevice, hwnd);
+	result = m_textureShader->initialize(m_d3d->getDevice(), hwnd);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the texture shader object.", 
 							 L"Error", MB_OK);
