@@ -166,7 +166,7 @@ bool TextureShaderClass::initializeShader(ID3D11Device* device, HWND hwnd,
 	return true;
 }
 
-void TextureShaderClass::shutdown() {
+void TextureShaderClass::shutdownShader() {
 	if (m_sampleState) {
 		m_sampleState->Release();
 		m_sampleState = 0;
