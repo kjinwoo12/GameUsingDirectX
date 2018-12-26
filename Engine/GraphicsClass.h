@@ -4,7 +4,8 @@
 #include "D3DClass.h"
 #include "CameraClass.h"
 #include "ModelClass.h"
-#include "ColorShaderClass.h"
+//#include "ColorShaderClass.h"
+#include "TextureShaderClass.h"
 
 const int DEFAULT_WIDTH = 1600;
 const int DEFAULT_HEIGHT = 900;
@@ -32,5 +33,6 @@ private:
 	D3DClass* m_d3d;
 	CameraClass* m_camera;
 	ModelClass* m_model;
-	ColorShaderClass* m_colorShader;
+	//ColorShaderClass* m_colorShader;
+	TextureShaderClass* m_textureShader;
 };

@@ -6,7 +6,8 @@ GraphicsClass::GraphicsClass()
 	m_d3d = 0;
 	m_camera = 0;
 	m_model = 0;
-	m_colorShader = 0;
+	//m_colorShader = 0;
+	m_textureShader = 0;
 }
 
 
@@ -51,20 +52,33 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	result = m_model->initialize(m_d3d->getDevice());
+	result = m_model->initialize(m_d3d->getDevice(), L"../Engine/data/seafloor.dds");
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the model object", L"Error", MB_OK);
 		return false;
 	}
 
-	m_colorShader = new ColorShaderClass;
+	/*m_colorShader = new ColorShaderClass;
 	if (!m_colorShader) {
 		return false;
 	}
-
+	
 	result = m_colorShader->initialize(m_d3d->getDevice(), hwnd);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the color shader object", L"Error", MB_OK);
+		return false;
+	}*/
+
+
+	m_textureShader = new TextureShaderClass;
+	if (!m_textureShader) {
+		return false;
+	}
+
+	result = m_textureShader->initialize(m_d3d->getDevice, hwnd);
+	if (!result) {
+		MessageBox(hwnd, L"Could not initialize the texture shader object.", 
+							 L"Error", MB_OK);
 		return false;
 	}
 
@@ -74,11 +88,17 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicsClass::shutdown()
 {
-	// Release the color shader
-	if (m_colorShader) {
-		m_colorShader->shutdown();
-		delete m_colorShader;
-		m_colorShader = 0;
+	//// Release the color shader
+	//if (m_colorShader) {
+	//	m_colorShader->shutdown();
+	//	delete m_colorShader;
+	//	m_colorShader = 0;
+	//}
+
+	if (m_textureShader) {
+		m_textureShader->shutdown();
+		delete m_textureShader;
+		m_textureShader = 0;
 	}
 
 	// Release the model object
@@ -141,7 +161,17 @@ bool GraphicsClass::render()
 	// Put the model vertex and indexbuffers on the graphics pipeline to prepare them for drawing
 	m_model->render(m_d3d->getDeviceContext());
 
-	result = m_colorShader->render(m_d3d->getDeviceContext(), m_model->getIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
+	/*result = m_colorShader->render(m_d3d->getDeviceContext(), m_model->getIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
+	if (!result) {
+		return false;
+	}*/
+
+	result = m_textureShader->render(m_d3d->getDeviceContext(),
+																	 m_model->getIndexCount(),
+																	 worldMatrix, 
+																	 viewMatrix, 
+																	 projectionMatrix,
+																	 m_model->getTexture());
 	if (!result) {
 		return false;
 	}
