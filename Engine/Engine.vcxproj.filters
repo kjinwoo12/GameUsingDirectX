@@ -9,6 +9,9 @@
     <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="ColorShaderClass.cpp" />
     <ClCompile Include="CameraClass.cpp" />
+    <ClCompile Include="TextureClass.cpp" />
+    <ClCompile Include="TextureShaderClass.cpp" />
+    <ClCompile Include="LightShaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h" />
@@ -18,6 +21,9 @@
     <ClInclude Include="ModelClass.h" />
     <ClInclude Include="ColorShaderClass.h" />
     <ClInclude Include="CameraClass.h" />
+    <ClInclude Include="TextureClass.h" />
+    <ClInclude Include="TextureShaderClass.h" />
+    <ClInclude Include="LightShaderClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="resources">
@@ -32,6 +38,9 @@
     <Filter Include="shader\texture">
       <UniqueIdentifier>{d215c114-f097-4e6c-8cb0-f5cf27cea3e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shader\light">
+      <UniqueIdentifier>{4539b0d0-c3bb-4e99-87a2-b8677b80338b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="color.ps">
@@ -42,6 +51,15 @@
     </None>
     <None Include="texture.vs">
       <Filter>shader\texture</Filter>
+    </None>
+    <None Include="texture.ps">
+      <Filter>shader\texture</Filter>
+    </None>
+    <None Include="light.ps">
+      <Filter>shader\light</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>shader\light</Filter>
     </None>
   </ItemGroup>
 </Project>
