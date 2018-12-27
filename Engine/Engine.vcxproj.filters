@@ -12,6 +12,7 @@
     <ClCompile Include="TextureClass.cpp" />
     <ClCompile Include="TextureShaderClass.cpp" />
     <ClCompile Include="LightShaderClass.cpp" />
+    <ClCompile Include="LightClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="TextureClass.h" />
     <ClInclude Include="TextureShaderClass.h" />
     <ClInclude Include="LightShaderClass.h" />
+    <ClInclude Include="LightClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="resources">
