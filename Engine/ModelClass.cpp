@@ -73,15 +73,19 @@ bool ModelClass::initializeBuffers(ID3D11Device* device) {
 
 	vertices[0].position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
 	vertices[0].texture = D3DXVECTOR2(0.0f, 1.0f);
+	vertices[0].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	vertices[1].position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
 	vertices[1].texture = D3DXVECTOR2(1.0f, 0.0f);
+	vertices[1].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	vertices[2].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
 	vertices[2].texture = D3DXVECTOR2(1.0f, 1.0f);
+	vertices[2].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	vertices[3].position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
 	vertices[3].texture = D3DXVECTOR2(1.0f, 1.0f);
+	vertices[3].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
@@ -147,8 +151,6 @@ void ModelClass::shutdownBuffers() 	{
 void ModelClass::renderBuffers(ID3D11DeviceContext* deviceContext) {
 	unsigned int stride = sizeof(VertexType);
 	unsigned int offset = 0;
-
-	//정점 버퍼와 인덱스 버퍼를 그래픽스 파이프라인에 넣어 셰이더로 화면에 그릴 준비하는 단계
 
 	//input assembler에 정점 버퍼를 활성화하여 그려질 수 있게 합니다.
 	deviceContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
