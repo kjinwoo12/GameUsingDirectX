@@ -3,6 +3,9 @@
 #include<D3D11.h>
 #include<D3DX10math.h>
 
+#include<fstream>
+using namespace std;
+
 #include"TextureClass.h"
 
 class ModelClass {
@@ -11,6 +14,12 @@ private:
 		D3DXVECTOR3 position;
 		D3DXVECTOR2 texture;
 		D3DXVECTOR3 normal;
+	};
+
+	struct ModelType {
+		float x, y, z;
+		float tu, tv;
+		float nx, ny, nz;
 	};
 
 public:
