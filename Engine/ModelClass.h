@@ -2,7 +2,6 @@
 
 #include<D3D11.h>
 #include<D3DX10math.h>
-
 #include<fstream>
 using namespace std;
 
@@ -26,7 +25,7 @@ public:
 	ModelClass();
 	~ModelClass();
 
-	bool initialize(ID3D11Device*, WCHAR*);
+	bool initialize(ID3D11Device*, char*, WCHAR*);
 	void shutdown();
 	void render(ID3D11DeviceContext*);
 
@@ -41,10 +40,13 @@ private:
 
 	bool loadTexture(ID3D11Device*, WCHAR*);
 	void releaseTexture();
+	bool loadModel(char*);
+	void releaseModel();
 
 	ID3D11Buffer *m_vertexBuffer, *m_indexBuffer;
 	int m_vertexCount, m_indexCount;
 
 	TextureClass* m_texture;
+	ModelType* m_model;
 };
 
