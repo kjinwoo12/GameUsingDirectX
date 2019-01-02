@@ -1,0 +1,56 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v3.1.187496374)
+
+newmtl JoinedMaterial_#6
+Kd 0.8 0.8 0.8
+Ka 0 0 0
+Ks 0.2 0.2 0.2
+Ke 0 0 0
+d 1
+Ns 60
+illum 2
+
+newmtl Iron_man_leg:red
+Kd 0.4 0.0470588 0.0470588
+Ka 0 0 0
+Ks 0.498039 0.498039 0.498039
+Ke 0 0 0
+d 1
+Ns 43
+illum 2
+
+newmtl Iron_man_leg:gol
+Kd 0.6 0.478431 0.133333
+Ka 0 0 0
+Ks 0.498039 0.498039 0.498039
+Ke 0 0 0
+d 1
+Ns 43
+illum 2
+
+newmtl lambert1
+Kd 0.4 0.4 0.4
+Ka 0.4 0.4 0.4
+Ks 1 1 1
+Ke 0 0 0
+d 1
+Ns 10
+illum 2
+
+newmtl HD_Ironman:yello
+Kd 1 1 1
+Ka 1 1 1
+Ks 0.2 0.2 0.2
+Ke 0 0 0
+d 1
+Ns 60
+illum 2
+
+newmtl 14 - Default
+Kd 0 0.152941 0.933333
+Ka 0 0.152941 0.933333
+Ks 0.898039 0.898039 0.898039
+Ke 0 0 0
+d 1
+illum 1
+
