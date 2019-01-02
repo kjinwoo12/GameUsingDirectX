@@ -64,4 +64,12 @@
       <Filter>shader\light</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="seafloor.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Cube.txt">
+      <Filter>resources</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
