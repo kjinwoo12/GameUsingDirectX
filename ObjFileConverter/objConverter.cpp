@@ -3,6 +3,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
+////////////////////////////////////////////////////////////////////////////////
+// Filename: main.cpp
+////////////////////////////////////////////////////////////////////////////////
+
+
 //////////////
 // INCLUDES //
 //////////////
@@ -28,7 +33,7 @@ typedef struct {
 /////////////////////////
 // FUNCTION PROTOTYPES //
 /////////////////////////
-void GetModelFilename(char*);
+//void GetModelFilename(char*);
 bool ReadFileCounts(char*, int&, int&, int&, int&);
 bool LoadDataStructures(char*, int, int, int, int);
 
@@ -38,21 +43,17 @@ bool LoadDataStructures(char*, int, int, int, int);
 //////////////////
 int main() {
 	bool result;
-	char filename[256];
+	char filename[256] = "../3dModel/IronMan.obj";
 	int vertexCount, textureCount, normalCount, faceCount;
 	char garbage;
 
 
 	// Read in the name of the model file.
-	GetModelFilename(filename);
 
 	// Read in the number of vertices, tex coords, normals, and faces so that the data structures can be initialized with the exact sizes needed.
 	result = ReadFileCounts(filename, vertexCount, textureCount, normalCount, faceCount);
 	if (!result) {
-		cout << "Error: ReadFileCounts(...)" << endl;
 		return -1;
-	} else {
-		cout << "Success: ReadFileCounts(...)" << endl;
 	}
 
 	// Display the counts to the screen for information purposes.
@@ -65,50 +66,48 @@ int main() {
 	// Now read the data from the file into the data structures and then output it in our model format.
 	result = LoadDataStructures(filename, vertexCount, textureCount, normalCount, faceCount);
 	if (!result) {
-		cout << "Error: LoadDataStructures(...)" << endl;
 		return -1;
-	} else {
-		cout << "Success: LoadDataStructures(...)" << endl;
 	}
 
 	// Notify the user the model has been converted.
 	cout << "\nFile has been converted." << endl;
-	cout << "\nDo you wish to exit (y/n)? " << endl;
+	cout << "\nDo you wish to exit (y/n)? ";
 	cin >> garbage;
 
 	return 0;
 }
 
 
-void GetModelFilename(char* filename) {
-	ifstream fin;
-
-
-	// Loop until we have a file name.
-	while (true) {
-		// Ask the user for the filename.
-		cout << "Enter model filename: ";
-
-		// Read in the filename.
-		cin >> filename;
-
-		// Attempt to open the file.
-		fin.open(filename);
-
-		if (fin.good()) {
-			// If the file exists and there are no problems then exit since we have the file name.
-			cout << "file is opened." << endl;
-			break;
-		} else {
-			// If the file does not exist or there was an issue opening it then notify the user and repeat the process.
-			fin.clear();
-			cout << endl;
-			cout << "File " << filename << " could not be opened." << endl << endl;
-		}
-	}
-
-	return;
-}
+//void GetModelFilename(char* filename) {
+//	bool done;
+//	ifstream fin;
+//
+//
+//	// Loop until we have a file name.
+//	done = false;
+//	while (!done) {
+//		// Ask the user for the filename.
+//		cout << "Enter model filename: ";
+//
+//		// Read in the filename.
+//		cin >> filename;
+//
+//		// Attempt to open the file.
+//		fin.open(filename);
+//
+//		if (fin.good()) {
+//			// If the file exists and there are no problems then exit since we have the file name.
+//			done = true;
+//		} else {
+//			// If the file does not exist or there was an issue opening it then notify the user and repeat the process.
+//			fin.clear();
+//			cout << endl;
+//			cout << "File " << filename << " could not be opened." << endl << endl;
+//		}
+//	}
+//
+//	return;
+//}
 
 
 bool ReadFileCounts(char* filename, int& vertexCount, int& textureCount, int& normalCount, int& faceCount) {
@@ -156,14 +155,7 @@ bool ReadFileCounts(char* filename, int& vertexCount, int& textureCount, int& no
 		}
 
 		// Otherwise read in the remainder of the line.
-		while (true) {
-			if (input == '\n') {
-				break;
-			}
-			if (fin.eof()) {
-				fin.close();
-				return true;
-			}
+		while (input != '\n') {
 			fin.get(input);
 		}
 
@@ -224,8 +216,10 @@ bool LoadDataStructures(char* filename, int vertexCount, int textureCount, int n
 
 	// Read in the vertices, texture coordinates, and normals into the data structures.
 	// Important: Also convert to left hand coordinate system since Maya uses right hand coordinate system.
+	int loopIndex = 0;
 	fin.get(input);
 	while (!fin.eof()) {
+		cout << input << ": " << loopIndex++ <<endl;
 		if (input == 'v') {
 			fin.get(input);
 
@@ -270,19 +264,11 @@ bool LoadDataStructures(char* filename, int vertexCount, int textureCount, int n
 		}
 
 		// Read in the remainder of the line.
-		while (true) {
-			if (input == '\n') {
-				break;
-			}if (fin.eof()) {
-				break;
-			}
+		while (input != '\n') {
 			fin.get(input);
 		}
 
 		// Start reading the beginning of the next line.
-		if (fin.eof()) {
-			break;
-		}
 		fin.get(input);
 	}
 
