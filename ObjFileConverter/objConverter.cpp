@@ -219,7 +219,6 @@ bool LoadDataStructures(char* filename, int vertexCount, int textureCount, int n
 	int loopIndex = 0;
 	fin.get(input);
 	while (!fin.eof()) {
-		cout << input << ": " << loopIndex++ <<endl;
 		if (input == 'v') {
 			fin.get(input);
 
