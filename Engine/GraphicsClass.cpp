@@ -44,14 +44,14 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!m_camera) {
 		return false;
 	}
-	m_camera->setPosition(0.0f, 0.0f, -100.0f);
+	m_camera->setPosition(0.0f, 0.0f, -10.0f);
 
 	m_model = new ModelClass;
 	if (!m_model) {
 		return false;
 	}
 
-	result = m_model->initialize(m_d3d->getDevice(), "../Engine/model.txt", L"../Engine/seafloor.dds");
+	result = m_model->initialize(m_d3d->getDevice(), "../Engine/Cube.txt", L"../Engine/seafloor.dds");
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the model object", L"Error", MB_OK);
 		return false;
@@ -72,6 +72,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!m_light) {
 		return false;
 	}
+	m_light->setAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 	m_light->setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_light->setDirection(0.0f, 0.0f, 1.0f);
 
@@ -124,7 +125,7 @@ bool GraphicsClass::frame()
 
 
 	// Render the graphics scene.
-	rotation += (float)D3DX_PI * 0.01f;
+	rotation += (float)D3DX_PI * 0.005f;
 	if (rotation > 360.0f) {
 		rotation -= 360.0f;
 	}
@@ -168,6 +169,7 @@ bool GraphicsClass::render(float rotation)
 																 projectionMatrix,
 																 m_model->getTexture(),
 																 m_light->getDirection(),
+																 m_light->getAmbientColor(),
 																 m_light->getDiffuseColor());
 	if (!result) {
 		return false;
