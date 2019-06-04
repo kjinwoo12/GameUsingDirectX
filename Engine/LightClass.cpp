@@ -10,26 +10,26 @@ LightClass::~LightClass() {
 }
 
 void LightClass::setAmbientColor(float r, float g, float b, float a) {
-	 ambientColor = D3DXVECTOR4(r, g, b, a);
+	 m_ambientColor = D3DXVECTOR4(r, g, b, a);
 	return;
 }
 
 void LightClass::setDiffuseColor(float r, float g, float b, float a) {
-	diffuseColor = D3DXVECTOR4(r, g, b, a);
+	m_diffuseColor = D3DXVECTOR4(r, g, b, a);
 }
 
 void LightClass::setDirection(float x, float y, float z) {
-	direction = D3DXVECTOR3(x, y, z);
+	m_direction = D3DXVECTOR3(x, y, z);
 }
 
 D3DXVECTOR4 LightClass::getAmbientColor() {
-	return ambientColor;
+	return m_ambientColor;
 }
 
 D3DXVECTOR4 LightClass::getDiffuseColor() {
-	return diffuseColor;
+	return m_diffuseColor;
 }
 
 D3DXVECTOR3 LightClass::getDirection() {
-	return direction;
+	return m_direction;
 }
