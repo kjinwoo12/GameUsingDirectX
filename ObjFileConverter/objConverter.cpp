@@ -38,7 +38,7 @@ deque<string> split(const string str, const char delim) {
 int main() {
 	FILE *file;
 
-	file = fopen("../3dmodel/test.obj", "r");
+	file = fopen("../3dmodel/Cube.obj", "r");
 	char chStr[512] = { 0, };
 
 	deque<VertexType> vertexList, texcoordList, normalList;
@@ -149,7 +149,7 @@ int main() {
 		if (nIndex == -1) {
 			fprintf(file, "0 0 0\n");
 		} else {
-			fprintf(file, "%f %f %f\n", vertexList[nIndex].x, vertexList[nIndex].y, vertexList[nIndex].z);
+			fprintf(file, "%f %f %f\n", normalList[nIndex].x, normalList[nIndex].y, normalList[nIndex].z);
 		}
 
 		vIndex = faceType.v2 - 1;
@@ -168,7 +168,7 @@ int main() {
 		if (nIndex == -1) {
 			fprintf(file, "0 0 0\n");
 		} else {
-			fprintf(file, "%f %f %f\n", vertexList[nIndex].x, vertexList[nIndex].y, vertexList[nIndex].z);
+			fprintf(file, "%f %f %f\n", normalList[nIndex].x, normalList[nIndex].y, normalList[nIndex].z);
 		}
 
 		vIndex = faceType.v3 - 1;
@@ -187,7 +187,7 @@ int main() {
 		if (nIndex == -1) {
 			fprintf(file, "0 0 0\n");
 		} else {
-			fprintf(file, "%f %f %f\n", vertexList[nIndex].x, vertexList[nIndex].y, vertexList[nIndex].z);
+			fprintf(file, "%f %f %f\n", normalList[nIndex].x, normalList[nIndex].y, normalList[nIndex].z);
 		}
 	}
 	fclose(file);
