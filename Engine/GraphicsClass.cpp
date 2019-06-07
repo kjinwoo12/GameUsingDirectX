@@ -44,7 +44,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!m_camera) {
 		return false;
 	}
-	m_camera->setPosition(0.0f, 0.0f, -10.0f);
+	m_camera->setPosition(0.0f, 0.0f, -3.0f);
 
 	m_model = new ModelClass;
 	if (!m_model) {
@@ -75,6 +75,8 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_light->setAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
 	m_light->setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_light->setDirection(0.0f, 0.0f, 1.0f);
+	m_light->setSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
+	m_light->setSpecularPower(32.0f);
 
 	return true;
 }
@@ -82,15 +84,15 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicsClass::shutdown()
 {
+	if (m_light) {
+		delete m_light;
+		m_light = 0;
+	}
+
 	if (m_lightShader) {
 		m_lightShader->shutdown();
 		delete m_lightShader;
 		m_lightShader = 0;
-	}
-
-	if (m_light) {
-		delete m_light;
-		m_light = 0;
 	}
 
 	// Release the model object
@@ -170,7 +172,10 @@ bool GraphicsClass::render(float rotation)
 																 m_model->getTexture(),
 																 m_light->getDirection(),
 																 m_light->getAmbientColor(),
-																 m_light->getDiffuseColor());
+																 m_light->getDiffuseColor(),
+																 m_camera->getPosition(),
+																 m_light->getSpecularColor(),
+																 m_light->getSpecularPower());
 	if (!result) {
 		return false;
 	}

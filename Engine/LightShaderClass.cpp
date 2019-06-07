@@ -74,7 +74,6 @@ bool LightShaderClass::initializeShader(ID3D11Device* device, HWND hwnd,
 	unsigned int numElements;
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	D3D11_SAMPLER_DESC samplerDesc;
-	D3D11_BUFFER_DESC matrixBufferDesc;
 	D3D11_BUFFER_DESC cameraBufferDesc;
 	D3D11_BUFFER_DESC lightBufferDesc;
 
@@ -296,8 +295,8 @@ bool LightShaderClass::setShaderParameters(ID3D11DeviceContext* deviceContext,
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	unsigned int bufferNumber;
 	MatrixBufferType* dataPtr;
-	LightBufferType* dataPtr2;
-	CameraBufferType* dataPtr3;
+	CameraBufferType* dataPtr2;
+	LightBufferType* dataPtr3;
 
 	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
 	D3DXMatrixTranspose(&viewMatrix, &viewMatrix);
@@ -324,29 +323,30 @@ bool LightShaderClass::setShaderParameters(ID3D11DeviceContext* deviceContext,
 		return false;
 	}
 
-	dataPtr3 = (CameraBufferType*)mappedResource.pData;
+	dataPtr2 = (CameraBufferType*)mappedResource.pData;
 
-	dataPtr3->cameraPosition = cameraPosition;
-	dataPtr3->padding = 0.0f;
+	dataPtr2->cameraPosition = cameraPosition;
+	dataPtr2->padding = 0.0f;
 
 	deviceContext->Unmap(m_cameraBuffer, 0);
 
 	bufferNumber = 1;
 
+	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_cameraBuffer);
+
 	deviceContext->PSSetShaderResources(0, 1, &texture);
 
-	result = deviceContext->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0,
-															&mappedResource);
+	result = deviceContext->Map(m_lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) {
 		return false;
 	}
 
-	dataPtr2 = (LightBufferType*)mappedResource.pData;
-	dataPtr2->ambientColor = ambientColor;
-	dataPtr2->diffuseColor = diffuseColor;
-	dataPtr2->lightDirection = lightDirection;
-	dataPtr2->specularColor = specularColor;
-	dataPtr2->specularPower = specularPower;
+	dataPtr3 = (LightBufferType*)mappedResource.pData;
+	dataPtr3->ambientColor = ambientColor;
+	dataPtr3->diffuseColor = diffuseColor;
+	dataPtr3->lightDirection = lightDirection;
+	dataPtr3->specularColor = specularColor;
+	dataPtr3->specularPower = specularPower;
 
 	deviceContext->Unmap(m_lightBuffer, 0);
 
