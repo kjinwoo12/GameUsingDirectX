@@ -27,7 +27,7 @@ private:
 	bool updateBuffers(ID3D11DeviceContext*, int, int);
 	void renderBuffers(ID3D11DeviceContext*);
 
-	bool loadTexture(ID3D11Device, WCHAR*);
+	bool loadTexture(ID3D11Device*, WCHAR*);
 	void releaseTexture();
 
 

@@ -15,13 +15,12 @@ class D3DClass
 {
 public:
 	D3DClass();
-	D3DClass(const D3DClass&);
 	~D3DClass();
 
 	bool initialize(int, int, bool, HWND, bool, float, float);
 	void shutdown();
 	
-	void begineScene(float, float, float, float);
+	void beginScene(float, float, float, float);
 	void endScene();
 
 	ID3D11Device* getDevice();
@@ -32,6 +31,9 @@ public:
 	void getOrthoMatrix(D3DXMATRIX&);
 
 	void getVideoCardInfo(char*, int&);
+
+	void turnZBufferOn();
+	void turnZBufferOff();
 
 private:
 	bool m_vsync_enabled;
@@ -48,4 +50,5 @@ private:
 	D3DXMATRIX m_projectionMatrix;
 	D3DXMATRIX m_worldMatrix;
 	D3DXMATRIX m_orthoMatrix;
+	ID3D11DepthStencilState* m_depthDisabledStencilState;
 };
