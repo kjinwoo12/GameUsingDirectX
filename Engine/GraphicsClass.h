@@ -3,9 +3,9 @@
 
 #include "D3DClass.h"
 #include "CameraClass.h"
-//#include "ModelClass.h"
-//#include "LightShaderClass.h"
-//#include "LightClass.h"
+#include "ModelClass.h"
+#include "LightShaderClass.h"
+#include "LightClass.h"
 #include "TextureShaderClass.h"
 #include "BitmapClass.h"
 
@@ -34,9 +34,9 @@ private:
 private:
 	D3DClass* m_d3d;
 	CameraClass* m_camera;
-	//ModelClass* m_model;
-	//LightShaderClass* m_lightShader;
-	//LightClass* m_light;
+	ModelClass* m_model;
+	LightShaderClass* m_lightShader;
+	LightClass* m_light;
 	TextureShaderClass *m_textureShader;
 	BitmapClass* m_bitmap;
 };

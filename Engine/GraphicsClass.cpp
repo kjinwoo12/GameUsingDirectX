@@ -6,9 +6,9 @@ GraphicsClass::GraphicsClass()
 	m_d3d = 0;
 	m_camera = 0;
 	m_textureShader = 0;
-	//m_model = 0;
-	//m_lightShader = 0;
-	//m_light = 0;
+	m_model = 0;
+	m_lightShader = 0;
+	m_light = 0;
 	m_bitmap = 0;
 }
 
@@ -48,7 +48,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 	m_camera->setPosition(0.0f, 0.0f, -10.0f);
 
-	/*m_model = new ModelClass;
+	m_model = new ModelClass;
 	if (!m_model) {
 		return false;
 	}
@@ -78,7 +78,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	m_light->setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_light->setDirection(0.0f, 0.0f, 1.0f);
 	m_light->setSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_light->setSpecularPower(32.0f);*/
+	m_light->setSpecularPower(32.0f);
 
 	m_textureShader = new TextureShaderClass;
 	if (!m_textureShader) {
@@ -96,7 +96,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	result = m_bitmap->initialize(m_d3d->getDevice(), screenWidth, screenHeight, L"seafloor.png", 256, 256);
+	result = m_bitmap->initialize(m_d3d->getDevice(), screenWidth, screenHeight, L"seafloor.gif", 256, 256);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialized the bitmap object", L"Error", MB_OK);
 		return false;
@@ -108,23 +108,23 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 
 void GraphicsClass::shutdown()
 {
-	//if (m_light) {
-	//	delete m_light;
-	//	m_light = 0;
-	//}
+	if (m_light) {
+		delete m_light;
+		m_light = 0;
+	}
 
-	//if (m_lightShader) {
-	//	m_lightShader->shutdown();
-	//	delete m_lightShader;
-	//	m_lightShader = 0;
-	//}
+	if (m_lightShader) {
+		m_lightShader->shutdown();
+		delete m_lightShader;
+		m_lightShader = 0;
+	}
 
-	//// Release the model object
-	//if (m_model) {
-	//	m_model->shutdown();
-	//	delete m_model;
-	//	m_model = 0;
-	//}
+	// Release the model object
+	if (m_model) {
+		m_model->shutdown();
+		delete m_model;
+		m_model = 0;
+	}
 
 	if (m_bitmap) {
 		m_bitmap->shutdown();
@@ -210,35 +210,34 @@ bool GraphicsClass::render(float rotation)
 
 	m_d3d->turnZBufferOn();
 
-	m_d3d->endScene();
+	//m_d3d->endScene();
 
-	return true;
 
 	// Rotate the world matrix by the rotation value
 	// so that the triangle will spin.
-	//D3DXMatrixRotationY(&worldMatrix, rotation);
+	D3DXMatrixRotationY(&worldMatrix, rotation);
 
 	// Put the model vertex and indexbuffers on the graphics pipeline to prepare them for drawing
-	//m_model->render(m_d3d->getDeviceContext());
+	m_model->render(m_d3d->getDeviceContext());
 
-	//result = m_lightShader->render(m_d3d->getDeviceContext(),
-	//															 m_model->getIndexCount(),
-	//															 worldMatrix,
-	//															 viewMatrix,
-	//															 projectionMatrix,
-	//															 m_model->getTexture(),
-	//															 m_light->getDirection(),
-	//															 m_light->getAmbientColor(),
-	//															 m_light->getDiffuseColor(),
-	//															 m_camera->getPosition(),
-	//															 m_light->getSpecularColor(),
-	//															 m_light->getSpecularPower());
-	//if (!result) {
-	//	return false;
-	//}
+	result = m_lightShader->render(m_d3d->getDeviceContext(),
+																 m_model->getIndexCount(),
+																 worldMatrix,
+																 viewMatrix,
+																 projectionMatrix,
+																 m_model->getTexture(),
+																 m_light->getDirection(),
+																 m_light->getAmbientColor(),
+																 m_light->getDiffuseColor(),
+																 m_camera->getPosition(),
+																 m_light->getSpecularColor(),
+																 m_light->getSpecularPower());
+	if (!result) {
+		return false;
+	}
 
-	//// Present the rendered scene to the screen.
-	//m_d3d->endScene();
+	// Present the rendered scene to the screen.
+	m_d3d->endScene();
 
-	//return true;
+	return true;
 }
