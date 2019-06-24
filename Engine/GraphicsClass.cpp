@@ -96,7 +96,7 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	result = m_bitmap->initialize(m_d3d->getDevice(), screenWidth, screenHeight, L"seafloor.dds", 256, 256);
+	result = m_bitmap->initialize(m_d3d->getDevice(), screenWidth, screenHeight, L"seafloor.png", 256, 256);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialized the bitmap object", L"Error", MB_OK);
 		return false;
