@@ -74,11 +74,12 @@ bool GraphicsClass::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	if (!m_light) {
 		return false;
 	}
-	m_light->setAmbientColor(0.15f, 0.15f, 0.15f, 1.0f);
-	m_light->setDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
+	m_light->setAmbientColor(0.15f, 0.15f, 0.15f, 0.1f);
+	m_light->setDiffuseColor(1.0f, 1.0f, 1.0f, 0.1f);
+	m_light->setPosition(0.0f, 0.0f, -10.0f);
 	m_light->setDirection(0.0f, 0.0f, 1.0f);
-	m_light->setSpecularColor(1.0f, 1.0f, 1.0f, 1.0f);
-	m_light->setSpecularPower(32.0f);
+	m_light->setSpecularColor(1.0f, 1.0f, 1.0f, 0.1f);
+	m_light->setSpecularPower(512.f);
 
 	m_textureShader = new TextureShaderClass;
 	if (!m_textureShader) {
@@ -179,7 +180,7 @@ bool GraphicsClass::frame()
 
 bool GraphicsClass::render(float rotation)
 {
-	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix;
+	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix, uiMatrix;
 	bool result;
 
 	// Clear the buffers to begin the scene.
@@ -202,20 +203,28 @@ bool GraphicsClass::render(float rotation)
 		return false;
 	}
 
-	result = m_textureShader->render(m_d3d->getDeviceContext(), m_bitmap->getIndexCount(), 
-																	 worldMatrix, viewMatrix, orthoMatrix, m_bitmap->getTexture());
+	result = m_textureShader->render(m_d3d->getDeviceContext(),
+																	 m_bitmap->getIndexCount(),
+																	 worldMatrix,
+																	 viewMatrix,
+																	 orthoMatrix, 
+																	 m_bitmap->getTexture());
 	if (!result) {
 		return false;
 	}
 
 	m_d3d->turnZBufferOn();
 
-	//m_d3d->endScene();
-
 
 	// Rotate the world matrix by the rotation value
 	// so that the triangle will spin.
-	D3DXMatrixRotationY(&worldMatrix, rotation);
+	m_camera->setRotation(0.0f, rotation, 0.0f);
+	float x = sin(rotation)*-10;
+	float z = cos(rotation)*-10.f;
+	m_camera->setPosition(x, 0, z);
+	m_light->setPosition(x, 0, z);
+
+	m_light->setDirection(-x/10, 0.0f, -z/10);
 
 	// Put the model vertex and indexbuffers on the graphics pipeline to prepare them for drawing
 	m_model->render(m_d3d->getDeviceContext());
@@ -229,7 +238,7 @@ bool GraphicsClass::render(float rotation)
 																 m_light->getDirection(),
 																 m_light->getAmbientColor(),
 																 m_light->getDiffuseColor(),
-																 m_camera->getPosition(),
+																 m_light->getPosition(),
 																 m_light->getSpecularColor(),
 																 m_light->getSpecularPower());
 	if (!result) {

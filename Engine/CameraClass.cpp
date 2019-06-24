@@ -59,9 +59,9 @@ void CameraClass::render() {
 	lookAt.y = 0.0f;
 	lookAt.z = 1.0f;
 
-	pitch = m_rotationX * 0.0174532925f; 
-	yaw = m_rotationY * 0.0174532925f; 
-	roll = m_rotationZ * 0.0174532925f;
+	pitch = m_rotationX;
+	yaw = m_rotationY;
+	roll = m_rotationZ;
 
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
 
