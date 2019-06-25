@@ -5,7 +5,12 @@
 CameraClass::CameraClass() {
 	m_position = D3DXVECTOR3(0, 0, -1);
 	m_rotation = D3DXVECTOR3(0, 0, 0);
-	setMatrix(m_fixedMatrix);
+	m_fixedMatrix = D3DXMATRIX(
+		1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		0.f, 0.f, 1.f, 1.f
+	);
 }
 
 
@@ -39,22 +44,6 @@ D3DXVECTOR3 CameraClass::getRotation() {
 
 
 void CameraClass::render() {
-	setMatrix(m_viewMatrix);
-	return;
-}
-
-
-void CameraClass::getViewMatrix(D3DXMATRIX& viewMatrix) {
-	viewMatrix = m_viewMatrix;
-}
-
-
-void CameraClass::getFixedMatrix(D3DXMATRIX& fixedMatrix) {
-	fixedMatrix = m_fixedMatrix;
-}
-
-
-void CameraClass::setMatrix(D3DXMATRIX& matrix) {
 	D3DXVECTOR3 up, lookAt;
 	float yaw, pitch, roll;
 	D3DXMATRIX rotationMatrix;
@@ -78,5 +67,16 @@ void CameraClass::setMatrix(D3DXMATRIX& matrix) {
 
 	lookAt = m_position + lookAt;
 
-	D3DXMatrixLookAtLH(&matrix, &m_position, &lookAt, &up);
+	D3DXMatrixLookAtLH(&m_viewMatrix, &m_position, &lookAt, &up);
+	return;
+}
+
+
+void CameraClass::getViewMatrix(D3DXMATRIX& viewMatrix) {
+	viewMatrix = m_viewMatrix;
+}
+
+
+void CameraClass::getFixedMatrix(D3DXMATRIX& fixedMatrix) {
+	fixedMatrix = m_fixedMatrix;
 }

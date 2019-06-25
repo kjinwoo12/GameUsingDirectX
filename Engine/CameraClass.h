@@ -18,8 +18,6 @@ public:
 	void getFixedMatrix(D3DXMATRIX&);
 
 private:
-	void setMatrix(D3DXMATRIX& matrix);
-
 	D3DXVECTOR3 m_position, m_rotation;
 	D3DXMATRIX m_viewMatrix;
 	D3DXMATRIX m_fixedMatrix;
