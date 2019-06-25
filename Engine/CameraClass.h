@@ -15,10 +15,13 @@ public:
 	
 	void render();
 	void getViewMatrix(D3DXMATRIX&);
+	void getFixedMatrix(D3DXMATRIX&);
 
 private:
-	float m_positionX, m_positionY, m_positionZ;
-	float m_rotationX, m_rotationY, m_rotationZ;
+	void setMatrix(D3DXMATRIX& matrix);
+
+	D3DXVECTOR3 m_position, m_rotation;
 	D3DXMATRIX m_viewMatrix;
+	D3DXMATRIX m_fixedMatrix;
 };
 

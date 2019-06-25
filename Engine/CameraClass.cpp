@@ -1,15 +1,11 @@
 #include "CameraClass.h"
-
+#include <stdio.h>
 
 
 CameraClass::CameraClass() {
-	m_positionX = 0.0f;
-	m_positionY = 0.0f;
-	m_positionZ = 0.0f;
-
-	m_rotationX = 0.0f;
-	m_rotationY = 0.0f;
-	m_rotationZ = 0.0f;
+	m_position = D3DXVECTOR3(0, 0, -1);
+	m_rotation = D3DXVECTOR3(0, 0, 0);
+	setMatrix(m_fixedMatrix);
 }
 
 
@@ -18,32 +14,48 @@ CameraClass::~CameraClass() {
 
 
 void CameraClass::setPosition(float x, float y, float z) {
-	m_positionX = x;
-	m_positionY = y;
-	m_positionZ = z;
+	m_position.x = x;
+	m_position.y = y;
+	m_position.z = z;
 	return;
 }
 
 void CameraClass::setRotation(float x, float y, float z) {
-	m_rotationX = x;
-	m_rotationY = y;
-	m_rotationZ = z;
+	m_rotation.x = x;
+	m_rotation.y = y;
+	m_rotation.z = z;
 	return;
 }
 
 
 D3DXVECTOR3 CameraClass::getPosition() {
-	return D3DXVECTOR3(m_positionX, m_positionY, m_positionZ);
+	return m_position;
 }
 
 
 D3DXVECTOR3 CameraClass::getRotation() {
-	return D3DXVECTOR3(m_rotationX, m_rotationY, m_rotationZ);
+	return m_rotation;
 }
 
 
 void CameraClass::render() {
-	D3DXVECTOR3 up, position, lookAt;
+	setMatrix(m_viewMatrix);
+	return;
+}
+
+
+void CameraClass::getViewMatrix(D3DXMATRIX& viewMatrix) {
+	viewMatrix = m_viewMatrix;
+}
+
+
+void CameraClass::getFixedMatrix(D3DXMATRIX& fixedMatrix) {
+	fixedMatrix = m_fixedMatrix;
+}
+
+
+void CameraClass::setMatrix(D3DXMATRIX& matrix) {
+	D3DXVECTOR3 up, lookAt;
 	float yaw, pitch, roll;
 	D3DXMATRIX rotationMatrix;
 
@@ -51,31 +63,20 @@ void CameraClass::render() {
 	up.y = 1.0f;
 	up.z = 0.0f;
 
-	position.x = m_positionX;
-	position.y = m_positionY;
-	position.z = m_positionZ;
-
 	lookAt.x = 0.0f;
 	lookAt.y = 0.0f;
 	lookAt.z = 1.0f;
 
-	pitch = m_rotationX;
-	yaw = m_rotationY;
-	roll = m_rotationZ;
+	pitch = m_rotation.x;
+	yaw = m_rotation.y;
+	roll = m_rotation.z;
 
 	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
 
 	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
 	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
 
-	lookAt = position + lookAt;
+	lookAt = m_position + lookAt;
 
-	D3DXMatrixLookAtLH(&m_viewMatrix, &position, &lookAt, &up);
-
-	return;
-}
-
-
-void CameraClass::getViewMatrix(D3DXMATRIX& viewMatrix) {
-	viewMatrix = m_viewMatrix;
+	D3DXMatrixLookAtLH(&matrix, &m_position, &lookAt, &up);
 }

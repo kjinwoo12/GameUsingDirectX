@@ -180,7 +180,7 @@ bool GraphicsClass::frame()
 
 bool GraphicsClass::render(float rotation)
 {
-	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix, orthoMatrix, uiMatrix;
+	D3DXMATRIX worldMatrix, viewMatrix, fixedMatrix, projectionMatrix, orthoMatrix;
 	bool result;
 
 	// Clear the buffers to begin the scene.
@@ -191,6 +191,7 @@ bool GraphicsClass::render(float rotation)
 
 	// Get the world, view, and projection matrices from the camera and d3d objects.
 	m_camera->getViewMatrix(viewMatrix);
+	m_camera->getFixedMatrix(fixedMatrix);
 	m_d3d->getWorldMatrix(worldMatrix);
 	m_d3d->getProjectionMatrix(projectionMatrix);
 
@@ -206,7 +207,7 @@ bool GraphicsClass::render(float rotation)
 	result = m_textureShader->render(m_d3d->getDeviceContext(),
 																	 m_bitmap->getIndexCount(),
 																	 worldMatrix,
-																	 viewMatrix,
+																	 fixedMatrix,
 																	 orthoMatrix, 
 																	 m_bitmap->getTexture());
 	if (!result) {
