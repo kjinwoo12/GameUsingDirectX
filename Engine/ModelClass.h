@@ -43,10 +43,10 @@ private:
 	bool loadModel(char*);
 	void releaseModel();
 
-	ID3D11Buffer *m_vertexBuffer, *m_indexBuffer;
+	ID3D11Buffer *m_pVertexBuffer, *m_pIndexBuffer;
 	int m_vertexCount, m_indexCount;
 
-	TextureClass* m_texture;
-	ModelType* m_model;
+	TextureClass* m_pTexture;
+	ModelType* m_pModel;
 };
 

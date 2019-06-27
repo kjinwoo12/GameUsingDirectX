@@ -38,9 +38,9 @@ private:
 													 ID3D11ShaderResourceView*);
 	void renderShader(ID3D11DeviceContext*, int);
 
-	ID3D11VertexShader* m_vertexShader;
-	ID3D11PixelShader* m_pixelShader;
-	ID3D11InputLayout* m_layout;
-	ID3D11Buffer* m_matrixBuffer;
-	ID3D11SamplerState* m_sampleState;
+	ID3D11VertexShader* m_pVertexShader;
+	ID3D11PixelShader* m_pPixelShader;
+	ID3D11InputLayout* m_pLayout;
+	ID3D11Buffer* m_pMatrixBuffer;
+	ID3D11SamplerState* m_pSampleState;
 };

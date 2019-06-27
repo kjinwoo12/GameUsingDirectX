@@ -31,9 +31,9 @@ private:
 	void releaseTexture();
 
 
-	ID3D11Buffer *m_vertexBuffer, *m_indexBuffer;
+	ID3D11Buffer *m_pVertexBuffer, *m_pIndexBuffer;
 	int m_vertexCount, m_indexCount;
-	TextureClass *m_texture;
+	TextureClass *m_pTexture;
 
 	int m_screenWidth, m_screenHeight;
 	int m_bitmapWidth, m_bitmapHeight;

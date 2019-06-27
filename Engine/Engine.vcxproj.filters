@@ -14,6 +14,7 @@
     <ClCompile Include="LightShaderClass.cpp" />
     <ClCompile Include="LightClass.cpp" />
     <ClCompile Include="BitmapClass.cpp" />
+    <ClCompile Include="TextClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemClass.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="LightShaderClass.h" />
     <ClInclude Include="LightClass.h" />
     <ClInclude Include="BitmapClass.h" />
+    <ClInclude Include="TextClass.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="resources">
@@ -73,5 +75,8 @@
     <Text Include="Cube.txt">
       <Filter>resources</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="D2CodingFont.ttf" />
   </ItemGroup>
 </Project>

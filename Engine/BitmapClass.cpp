@@ -3,9 +3,9 @@
 
 
 BitmapClass::BitmapClass() {
-	m_vertexBuffer = 0;
-	m_indexBuffer = 0;
-	m_texture = 0;
+	m_pVertexBuffer = 0;
+	m_pIndexBuffer = 0;
+	m_pTexture = 0;
 }
 
 
@@ -63,7 +63,7 @@ int BitmapClass::getIndexCount() {
 }
 
 ID3D11ShaderResourceView* BitmapClass::getTexture() {
-	return m_texture->getTexture();
+	return m_pTexture->getTexture();
 }
 
 bool BitmapClass::initializeBuffers(ID3D11Device* device) {
@@ -104,7 +104,7 @@ bool BitmapClass::initializeBuffers(ID3D11Device* device) {
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
-	result = device->CreateBuffer(&vertexBufferDesc, &vertexData, &m_vertexBuffer);
+	result = device->CreateBuffer(&vertexBufferDesc, &vertexData, &m_pVertexBuffer);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -120,7 +120,7 @@ bool BitmapClass::initializeBuffers(ID3D11Device* device) {
 	indexData.SysMemPitch = 0;
 	indexData.SysMemSlicePitch = 0;
 
-	result = device->CreateBuffer(&indexBufferDesc, &indexData, &m_indexBuffer);
+	result = device->CreateBuffer(&indexBufferDesc, &indexData, &m_pIndexBuffer);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -135,14 +135,14 @@ bool BitmapClass::initializeBuffers(ID3D11Device* device) {
 }
 
 void BitmapClass::shutdownBuffers() {
-	if (m_indexBuffer) {
-		m_indexBuffer->Release();
-		m_indexBuffer = 0;
+	if (m_pIndexBuffer) {
+		m_pIndexBuffer->Release();
+		m_pIndexBuffer = 0;
 	}
 
-	if (m_vertexBuffer) {
-		m_vertexBuffer->Release();
-		m_vertexBuffer = 0;
+	if (m_pVertexBuffer) {
+		m_pVertexBuffer->Release();
+		m_pVertexBuffer = 0;
 	}
 }
 
@@ -183,7 +183,7 @@ bool BitmapClass::updateBuffers(ID3D11DeviceContext* deviceContext, int position
 	vertices[5].position = D3DXVECTOR3(right, bottom, 0.0f);
 	vertices[5].texture = D3DXVECTOR2(1.f, 1.f);
 
-	result = deviceContext->Map(m_vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	result = deviceContext->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -191,7 +191,7 @@ bool BitmapClass::updateBuffers(ID3D11DeviceContext* deviceContext, int position
 
 	memcpy(verticesPtr, (void*)vertices, (sizeof(VertexType) * m_vertexCount));
 
-	deviceContext->Unmap(m_vertexBuffer, 0);
+	deviceContext->Unmap(m_pVertexBuffer, 0);
 
 	delete[] vertices;
 	vertices = 0;
@@ -207,8 +207,8 @@ void BitmapClass::renderBuffers(ID3D11DeviceContext* deviceContext) {
 	stride = sizeof(VertexType);
 	offset = 0;
 
-	deviceContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &stride, &offset);
-	deviceContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	deviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	deviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return;
@@ -217,12 +217,12 @@ void BitmapClass::renderBuffers(ID3D11DeviceContext* deviceContext) {
 bool BitmapClass::loadTexture(ID3D11Device* device, WCHAR* fileName) {
 	bool result;
 
-	m_texture = new TextureClass;
-	if (!m_texture) {
+	m_pTexture = new TextureClass;
+	if (!m_pTexture) {
 		return false;
 	}
 
-	result = m_texture->initialize(device, fileName);
+	result = m_pTexture->initialize(device, fileName);
 	if (!result) {
 		return false;
 	}
@@ -231,10 +231,10 @@ bool BitmapClass::loadTexture(ID3D11Device* device, WCHAR* fileName) {
 }
 
 void BitmapClass::releaseTexture() {
-	if (m_texture) {
-		m_texture->shutdown();
-		delete m_texture;
-		m_texture = 0;
+	if (m_pTexture) {
+		m_pTexture->shutdown();
+		delete m_pTexture;
+		m_pTexture = 0;
 	}
 
 	return;

@@ -3,10 +3,10 @@
 
 
 ColorShaderClass::ColorShaderClass() {
-	m_vertexShader = 0;
-	m_pixelShader = 0;
-	m_layout = 0;
-	m_matrixBuffer = 0;
+	m_pVertexShader = 0;
+	m_pPixelShader = 0;
+	m_pLayout = 0;
+	m_pMatrixBuffer = 0;
 }
 
 
@@ -83,14 +83,14 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	
 	result = device->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(),
 																			vertexShaderBuffer->GetBufferSize(),
-																			NULL, &m_vertexShader);
+																			NULL, &m_pVertexShader);
 	if (FAILED(result)) {
 		return false;
 	}
 
 	result = device->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(),
 																		 pixelShaderBuffer->GetBufferSize(),
-																		 NULL, &m_pixelShader);
+																		 NULL, &m_pPixelShader);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -119,7 +119,7 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	result = device->CreateInputLayout(polygonLayout, numElements, 
 																		 vertexShaderBuffer->GetBufferPointer(),
 																		 vertexShaderBuffer->GetBufferSize(),
-																		 &m_layout);
+																		 &m_pLayout);
 
 	if (FAILED(result)) {
 		cout << "정점 입력 레이아웃 생성 실패";
@@ -142,7 +142,7 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-	result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+	result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_pMatrixBuffer);
 	if (FAILED(result)) {
 		cout << "상수 버퍼 생성 실패";
 		return false;
@@ -153,24 +153,24 @@ bool ColorShaderClass::initializeShader(ID3D11Device* device, HWND hwnd, WCHAR* 
 
 
 void ColorShaderClass::shutdownShader() {
-	if (m_matrixBuffer) {
-		m_matrixBuffer->Release();
-		m_matrixBuffer = 0;
+	if (m_pMatrixBuffer) {
+		m_pMatrixBuffer->Release();
+		m_pMatrixBuffer = 0;
 	}
 
-	if (m_layout) {
-		m_layout->Release();
-		m_layout = 0;
+	if (m_pLayout) {
+		m_pLayout->Release();
+		m_pLayout = 0;
 	}
 
-	if (m_pixelShader) {
-		m_pixelShader->Release();
-		m_pixelShader = 0;
+	if (m_pPixelShader) {
+		m_pPixelShader->Release();
+		m_pPixelShader = 0;
 	}
 
-	if (m_vertexShader) {
-		m_vertexShader->Release();
-		m_vertexShader = 0;
+	if (m_pVertexShader) {
+		m_pVertexShader->Release();
+		m_pVertexShader = 0;
 	}
 
 	return;
@@ -216,7 +216,7 @@ bool ColorShaderClass::setShaderParameters(ID3D11DeviceContext* deviceContext,
 	D3DXMatrixTranspose(&projectionMatrix, &projectionMatrix);
 
 	//상수 버퍼의 내용을 쓸 수 있도록 잠급니다.
-	result = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	result = deviceContext->Map(m_pMatrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -230,24 +230,24 @@ bool ColorShaderClass::setShaderParameters(ID3D11DeviceContext* deviceContext,
 	dataPtr->projection = projectionMatrix;
 
 	//상수 버퍼의 잠금을 풉니다.
-	deviceContext->Unmap(m_matrixBuffer, 0);
+	deviceContext->Unmap(m_pMatrixBuffer, 0);
 
 	//정점 셰이더에서의 상수 버퍼의 위치를 설정합니다.
 	bufferNumber = 0;
 
 	//정점 셰이더의 상수 버퍼를 바뀐 값으로 바꿉니다
-	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
+	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_pMatrixBuffer);
 
 	return true;
 }
 
 void ColorShaderClass::renderShader(ID3D11DeviceContext* deviceContext, int indexCount) {
 	//정점 입력 레이아웃을 설정합니다.
-	deviceContext->IASetInputLayout(m_layout);
+	deviceContext->IASetInputLayout(m_pLayout);
 
 	//삼각형을 그릴 정점 셰이더와 픽셸 셰이더를 설정합니다.
-	deviceContext->VSSetShader(m_vertexShader, NULL, 0);
-	deviceContext->PSSetShader(m_pixelShader, NULL, 0);
+	deviceContext->VSSetShader(m_pVertexShader, NULL, 0);
+	deviceContext->PSSetShader(m_pPixelShader, NULL, 0);
 
 	//삼각형을 그립니다.
 	deviceContext->DrawIndexed(indexCount, 0, 0);

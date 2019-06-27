@@ -3,15 +3,15 @@
 
 
 D3DClass::D3DClass() {
-	m_swapChain = 0;
-	m_device = 0;
-	m_deviceContext = 0;
-	m_renderTargetView = 0;
-	m_depthStencilBuffer = 0;
-	m_depthStencilState = 0;
-	m_depthStencilView = 0;
-	m_rasterState = 0;
-	m_depthDisabledStencilState = 0;
+	m_pSwapChain = 0;
+	m_pDevice = 0;
+	m_pDeviceContext = 0;
+	m_pRenderTargetView = 0;
+	m_pDepthStencilBuffer = 0;
+	m_pDepthStencilState = 0;
+	m_pDepthStencilView = 0;
+	m_pRasterState = 0;
+	m_pDepthDisabledStencilState = 0;
 }
 
 
@@ -176,19 +176,19 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 	// Create the swap chain, Direct3D device, and Direct3D device context.
 	result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1,
-																				 D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
+																				 D3D11_SDK_VERSION, &swapChainDesc, &m_pSwapChain, &m_pDevice, NULL, &m_pDeviceContext);
 	if (FAILED(result)) {
 		return false;
 	}
 
 	// Get the pointer to the back buffer.
-	result = m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
+	result = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
 	if (FAILED(result)) {
 		return false;
 	}
 
 	// Create the render target view with the back buffer pointer.
-	result = m_device->CreateRenderTargetView(backBufferPtr, NULL, &m_renderTargetView);
+	result = m_pDevice->CreateRenderTargetView(backBufferPtr, NULL, &m_pRenderTargetView);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -214,7 +214,7 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	depthBufferDesc.MiscFlags = 0;
 
 	// Create the texture for the depth buffer using the filled out description.
-	result = m_device->CreateTexture2D(&depthBufferDesc, NULL, &m_depthStencilBuffer);
+	result = m_pDevice->CreateTexture2D(&depthBufferDesc, NULL, &m_pDepthStencilBuffer);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -244,13 +244,13 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
 	// Create the depth stencil state.
-	result = m_device->CreateDepthStencilState(&depthStencilDesc, &m_depthStencilState);
+	result = m_pDevice->CreateDepthStencilState(&depthStencilDesc, &m_pDepthStencilState);
 	if (FAILED(result)) {
 		return false;
 	}
 
 	// Set the depth stencil state.
-	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+	m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
 
 	// Initialize the depth stencil view.
 	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
@@ -261,13 +261,13 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	depthStencilViewDesc.Texture2D.MipSlice = 0;
 
 	// Create the depth stencil view.
-	result = m_device->CreateDepthStencilView(m_depthStencilBuffer, &depthStencilViewDesc, &m_depthStencilView);
+	result = m_pDevice->CreateDepthStencilView(m_pDepthStencilBuffer, &depthStencilViewDesc, &m_pDepthStencilView);
 	if (FAILED(result)) {
 		return false;
 	}
 
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
-	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+	m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 
 	// Setup the raster description which will determine how and what polygons will be drawn.
 	rasterDesc.AntialiasedLineEnable = false;
@@ -282,13 +282,13 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	rasterDesc.SlopeScaledDepthBias = 0.0f;
 
 	// Create the rasterizer state from the description we just filled out.
-	result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
+	result = m_pDevice->CreateRasterizerState(&rasterDesc, &m_pRasterState);
 	if (FAILED(result)) {
 		return false;
 	}
 
 	// Now set the rasterizer state.
-	m_deviceContext->RSSetState(m_rasterState);
+	m_pDeviceContext->RSSetState(m_pRasterState);
 
 	// Setup the viewport for rendering.
 	viewport.Width = (float)screenWidth;
@@ -299,7 +299,7 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	viewport.TopLeftY = 0.0f;
 
 	// Create the viewport.
-	m_deviceContext->RSSetViewports(1, &viewport);
+	m_pDeviceContext->RSSetViewports(1, &viewport);
 
 	// Setup the projection matrix.
 	fieldOfView = (float)D3DX_PI / 4.0f;
@@ -331,7 +331,7 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
-	result = m_device->CreateDepthStencilState(&depthDisabledStencilDesc, &m_depthDisabledStencilState);
+	result = m_pDevice->CreateDepthStencilState(&depthDisabledStencilDesc, &m_pDepthDisabledStencilState);
 	if (FAILED(result)) {
 		return false;
 	}
@@ -342,53 +342,53 @@ bool D3DClass::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 
 void D3DClass::shutdown() {
 	// Before shutting down set to windowed mode or when you release the swap chain it will throw an exception.
-	if (m_swapChain) {
-		m_swapChain->SetFullscreenState(false, NULL);
+	if (m_pSwapChain) {
+		m_pSwapChain->SetFullscreenState(false, NULL);
 	}
 
-	if (m_depthDisabledStencilState) {
-		m_depthDisabledStencilState->Release();
-		m_depthDisabledStencilState = 0;
+	if (m_pDepthDisabledStencilState) {
+		m_pDepthDisabledStencilState->Release();
+		m_pDepthDisabledStencilState = 0;
 	}
 
-	if (m_rasterState) {
-		m_rasterState->Release();
-		m_rasterState = 0;
+	if (m_pRasterState) {
+		m_pRasterState->Release();
+		m_pRasterState = 0;
 	}
 
-	if (m_depthStencilView) {
-		m_depthStencilView->Release();
-		m_depthStencilView = 0;
+	if (m_pDepthStencilView) {
+		m_pDepthStencilView->Release();
+		m_pDepthStencilView = 0;
 	}
 
-	if (m_depthStencilState) {
-		m_depthStencilState->Release();
-		m_depthStencilState = 0;
+	if (m_pDepthStencilState) {
+		m_pDepthStencilState->Release();
+		m_pDepthStencilState = 0;
 	}
 
-	if (m_depthStencilBuffer) {
-		m_depthStencilBuffer->Release();
-		m_depthStencilBuffer = 0;
+	if (m_pDepthStencilBuffer) {
+		m_pDepthStencilBuffer->Release();
+		m_pDepthStencilBuffer = 0;
 	}
 
-	if (m_renderTargetView) {
-		m_renderTargetView->Release();
-		m_renderTargetView = 0;
+	if (m_pRenderTargetView) {
+		m_pRenderTargetView->Release();
+		m_pRenderTargetView = 0;
 	}
 
-	if (m_deviceContext) {
-		m_deviceContext->Release();
-		m_deviceContext = 0;
+	if (m_pDeviceContext) {
+		m_pDeviceContext->Release();
+		m_pDeviceContext = 0;
 	}
 
-	if (m_device) {
-		m_device->Release();
-		m_device = 0;
+	if (m_pDevice) {
+		m_pDevice->Release();
+		m_pDevice = 0;
 	}
 
-	if (m_swapChain) {
-		m_swapChain->Release();
-		m_swapChain = 0;
+	if (m_pSwapChain) {
+		m_pSwapChain->Release();
+		m_pSwapChain = 0;
 	}
 
 	return;
@@ -406,10 +406,10 @@ void D3DClass::beginScene(float red, float green, float blue, float alpha) {
 	color[3] = alpha;
 
 	// Clear the back buffer.
-	m_deviceContext->ClearRenderTargetView(m_renderTargetView, color);
+	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, color);
 
 	// Clear the depth buffer.
-	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	return;
 }
@@ -419,10 +419,10 @@ void D3DClass::endScene() {
 	// Present the back buffer to the screen since rendering is complete.
 	if (m_vsync_enabled) {
 		// Lock to screen refresh rate.
-		m_swapChain->Present(1, 0);
+		m_pSwapChain->Present(1, 0);
 	} else {
 		// Present as fast as possible.
-		m_swapChain->Present(0, 0);
+		m_pSwapChain->Present(0, 0);
 	}
 
 	return;
@@ -430,12 +430,12 @@ void D3DClass::endScene() {
 
 
 ID3D11Device* D3DClass::getDevice() {
-	return m_device;
+	return m_pDevice;
 }
 
 
 ID3D11DeviceContext* D3DClass::getDeviceContext() {
-	return m_deviceContext;
+	return m_pDeviceContext;
 }
 
 
@@ -464,9 +464,9 @@ void D3DClass::getVideoCardInfo(char* cardName, int& memory) {
 }
 
 void D3DClass::turnZBufferOn() {
-	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
+	m_pDeviceContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
 }
 
 void D3DClass::turnZBufferOff() {
-	m_deviceContext->OMSetDepthStencilState(m_depthDisabledStencilState, 1);
+	m_pDeviceContext->OMSetDepthStencilState(m_pDepthDisabledStencilState, 1);
 }
